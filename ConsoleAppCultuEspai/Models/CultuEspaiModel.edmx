@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="espaiCulturalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CaracteristiquesSales">
+          <Key>
+            <PropertyRef Name="CaracteristicaID" />
+          </Key>
+          <Property Name="CaracteristicaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SalaID" Type="int" />
+          <Property Name="CaracteristicaNom" Type="varchar" MaxLength="100" />
+          <Property Name="CaracteristicaValor" Type="varchar" MaxLength="100" />
+          <Property Name="DataModificacio" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Entrades">
+          <Key>
+            <PropertyRef Name="EntradaID" />
+          </Key>
+          <Property Name="EntradaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuariID" Type="int" />
+          <Property Name="EsdevenimentID" Type="int" />
+          <Property Name="Quantitat" Type="int" />
+          <Property Name="NumeroButaca" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Esdeveniments">
+          <Key>
+            <PropertyRef Name="EsdevenimentID" />
+          </Key>
+          <Property Name="EsdevenimentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="100" />
+          <Property Name="Descripcio" Type="varchar" MaxLength="255" />
+          <Property Name="SalaID" Type="int" />
+          <Property Name="DataInici" Type="datetime" />
+          <Property Name="DataFi" Type="datetime" />
+          <Property Name="Aforament" Type="int" />
+          <Property Name="OrganitzadorID" Type="int" />
+          <Property Name="Estat" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DePagament" Type="bit" Nullable="false" />
+          <Property Name="Preu" Type="int" />
+          <Property Name="EntradesDisp" Type="int" />
+        </EntityType>
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="SalaID" />
+          </Key>
+          <Property Name="SalaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="100" />
+          <Property Name="MetresQuadrats" Type="int" Nullable="false" />
+          <Property Name="Aforament" Type="int" />
+          <Property Name="CadiresFixes" Type="bit" Nullable="false" />
+          <Property Name="Descripcio" Type="varchar" MaxLength="255" />
+          <Property Name="ButacaMax" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="Usuaris">
+          <Key>
+            <PropertyRef Name="UsuariID" />
+          </Key>
+          <Property Name="UsuariID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="100" />
+          <Property Name="Correu" Type="varchar" MaxLength="100" />
+          <Property Name="Contrasenya" Type="varchar" MaxLength="100" />
+          <Property Name="TipusUsuari" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Actiu" Type="bit" Nullable="false" />
+          <Property Name="ContrasenyaHash" Type="varchar" MaxLength="60" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Xats">
+          <Key>
+            <PropertyRef Name="XatID" />
+          </Key>
+          <Property Name="XatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDUser" Type="int" />
+          <Property Name="Text" Type="varchar" MaxLength="255" />
+          <Property Name="Data" Type="datetime" />
+          <Property Name="IDEsdeveniment" Type="int" />
+          <Property Name="Enviat" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Caracteri__SalaI__4AB81AF0">
+          <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
+          <End Role="CaracteristiquesSales" Type="Self.CaracteristiquesSales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="SalaID" />
+            </Principal>
+            <Dependent Role="CaracteristiquesSales">
+              <PropertyRef Name="SalaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entrades__Esdeve__46E78A0C">
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="0..1" />
+          <End Role="Entrades" Type="Self.Entrades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Esdeveniments">
+              <PropertyRef Name="EsdevenimentID" />
+            </Principal>
+            <Dependent Role="Entrades">
+              <PropertyRef Name="EsdevenimentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entrades__Usuari__45F365D3">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="0..1" />
+          <End Role="Entrades" Type="Self.Entrades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="UsuariID" />
+            </Principal>
+            <Dependent Role="Entrades">
+              <PropertyRef Name="UsuariID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Esdevenim__Organ__412EB0B6">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="0..1" />
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="UsuariID" />
+            </Principal>
+            <Dependent Role="Esdeveniments">
+              <PropertyRef Name="OrganitzadorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Esdevenim__SalaI__403A8C7D">
+          <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="SalaID" />
+            </Principal>
+            <Dependent Role="Esdeveniments">
+              <PropertyRef Name="SalaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Xats__IDEsdeveni__5070F446">
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="0..1" />
+          <End Role="Xats" Type="Self.Xats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Esdeveniments">
+              <PropertyRef Name="EsdevenimentID" />
+            </Principal>
+            <Dependent Role="Xats">
+              <PropertyRef Name="IDEsdeveniment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Xats__IDUser__4F7CD00D">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="0..1" />
+          <End Role="Xats" Type="Self.Xats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="UsuariID" />
+            </Principal>
+            <Dependent Role="Xats">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="espaiCulturalModelStoreContainer">
+          <EntitySet Name="CaracteristiquesSales" EntityType="Self.CaracteristiquesSales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entrades" EntityType="Self.Entrades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Esdeveniments" EntityType="Self.Esdeveniments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuaris" EntityType="Self.Usuaris" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Xats" EntityType="Self.Xats" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Caracteri__SalaI__4AB81AF0" Association="Self.FK__Caracteri__SalaI__4AB81AF0">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="CaracteristiquesSales" EntitySet="CaracteristiquesSales" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entrades__Esdeve__46E78A0C" Association="Self.FK__Entrades__Esdeve__46E78A0C">
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+            <End Role="Entrades" EntitySet="Entrades" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entrades__Usuari__45F365D3" Association="Self.FK__Entrades__Usuari__45F365D3">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Entrades" EntitySet="Entrades" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Esdevenim__Organ__412EB0B6" Association="Self.FK__Esdevenim__Organ__412EB0B6">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Esdevenim__SalaI__403A8C7D" Association="Self.FK__Esdevenim__SalaI__403A8C7D">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Xats__IDEsdeveni__5070F446" Association="Self.FK__Xats__IDEsdeveni__5070F446">
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+            <End Role="Xats" EntitySet="Xats" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Xats__IDUser__4F7CD00D" Association="Self.FK__Xats__IDUser__4F7CD00D">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Xats" EntitySet="Xats" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="espaiCulturalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CaracteristiquesSales">
+          <Key>
+            <PropertyRef Name="CaracteristicaID" />
+          </Key>
+          <Property Name="CaracteristicaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SalaID" Type="Int32" />
+          <Property Name="CaracteristicaNom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CaracteristicaValor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DataModificacio" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Caracteri__SalaI__4AB81AF0" FromRole="CaracteristiquesSales" ToRole="Sales" />
+        </EntityType>
+        <EntityType Name="Entrades">
+          <Key>
+            <PropertyRef Name="EntradaID" />
+          </Key>
+          <Property Name="EntradaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuariID" Type="Int32" />
+          <Property Name="EsdevenimentID" Type="Int32" />
+          <Property Name="Quantitat" Type="Int32" />
+          <Property Name="NumeroButaca" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Esdeveniments" Relationship="Self.FK__Entrades__Esdeve__46E78A0C" FromRole="Entrades" ToRole="Esdeveniments" />
+          <NavigationProperty Name="Usuaris" Relationship="Self.FK__Entrades__Usuari__45F365D3" FromRole="Entrades" ToRole="Usuaris" />
+        </EntityType>
+        <EntityType Name="Esdeveniments">
+          <Key>
+            <PropertyRef Name="EsdevenimentID" />
+          </Key>
+          <Property Name="EsdevenimentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Descripcio" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SalaID" Type="Int32" />
+          <Property Name="DataInici" Type="DateTime" Precision="3" />
+          <Property Name="DataFi" Type="DateTime" Precision="3" />
+          <Property Name="Aforament" Type="Int32" />
+          <Property Name="OrganitzadorID" Type="Int32" />
+          <Property Name="Estat" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DePagament" Type="Boolean" Nullable="false" />
+          <Property Name="Preu" Type="Int32" />
+          <Property Name="EntradesDisp" Type="Int32" />
+          <NavigationProperty Name="Entrades" Relationship="Self.FK__Entrades__Esdeve__46E78A0C" FromRole="Esdeveniments" ToRole="Entrades" />
+          <NavigationProperty Name="Usuaris" Relationship="Self.FK__Esdevenim__Organ__412EB0B6" FromRole="Esdeveniments" ToRole="Usuaris" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK__Esdevenim__SalaI__403A8C7D" FromRole="Esdeveniments" ToRole="Sales" />
+          <NavigationProperty Name="Xats" Relationship="Self.FK__Xats__IDEsdeveni__5070F446" FromRole="Esdeveniments" ToRole="Xats" />
+        </EntityType>
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="SalaID" />
+          </Key>
+          <Property Name="SalaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MetresQuadrats" Type="Int32" Nullable="false" />
+          <Property Name="Aforament" Type="Int32" />
+          <Property Name="CadiresFixes" Type="Boolean" Nullable="false" />
+          <Property Name="Descripcio" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ButacaMax" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CaracteristiquesSales" Relationship="Self.FK__Caracteri__SalaI__4AB81AF0" FromRole="Sales" ToRole="CaracteristiquesSales" />
+          <NavigationProperty Name="Esdeveniments" Relationship="Self.FK__Esdevenim__SalaI__403A8C7D" FromRole="Sales" ToRole="Esdeveniments" />
+        </EntityType>
+        <EntityType Name="Usuaris">
+          <Key>
+            <PropertyRef Name="UsuariID" />
+          </Key>
+          <Property Name="UsuariID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Correu" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Contrasenya" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TipusUsuari" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Actiu" Type="Boolean" Nullable="false" />
+          <Property Name="ContrasenyaHash" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Entrades" Relationship="Self.FK__Entrades__Usuari__45F365D3" FromRole="Usuaris" ToRole="Entrades" />
+          <NavigationProperty Name="Esdeveniments" Relationship="Self.FK__Esdevenim__Organ__412EB0B6" FromRole="Usuaris" ToRole="Esdeveniments" />
+          <NavigationProperty Name="Xats" Relationship="Self.FK__Xats__IDUser__4F7CD00D" FromRole="Usuaris" ToRole="Xats" />
+        </EntityType>
+        <EntityType Name="Xats">
+          <Key>
+            <PropertyRef Name="XatID" />
+          </Key>
+          <Property Name="XatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDUser" Type="Int32" />
+          <Property Name="Text" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Data" Type="DateTime" Precision="3" />
+          <Property Name="IDEsdeveniment" Type="Int32" />
+          <Property Name="Enviat" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Esdeveniments" Relationship="Self.FK__Xats__IDEsdeveni__5070F446" FromRole="Xats" ToRole="Esdeveniments" />
+          <NavigationProperty Name="Usuaris" Relationship="Self.FK__Xats__IDUser__4F7CD00D" FromRole="Xats" ToRole="Usuaris" />
+        </EntityType>
+        <Association Name="FK__Caracteri__SalaI__4AB81AF0">
+          <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
+          <End Role="CaracteristiquesSales" Type="Self.CaracteristiquesSales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="SalaID" />
+            </Principal>
+            <Dependent Role="CaracteristiquesSales">
+              <PropertyRef Name="SalaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entrades__Esdeve__46E78A0C">
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="0..1" />
+          <End Role="Entrades" Type="Self.Entrades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Esdeveniments">
+              <PropertyRef Name="EsdevenimentID" />
+            </Principal>
+            <Dependent Role="Entrades">
+              <PropertyRef Name="EsdevenimentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entrades__Usuari__45F365D3">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="0..1" />
+          <End Role="Entrades" Type="Self.Entrades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="UsuariID" />
+            </Principal>
+            <Dependent Role="Entrades">
+              <PropertyRef Name="UsuariID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Esdevenim__Organ__412EB0B6">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="0..1" />
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="UsuariID" />
+            </Principal>
+            <Dependent Role="Esdeveniments">
+              <PropertyRef Name="OrganitzadorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Esdevenim__SalaI__403A8C7D">
+          <End Role="Sales" Type="Self.Sales" Multiplicity="0..1" />
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sales">
+              <PropertyRef Name="SalaID" />
+            </Principal>
+            <Dependent Role="Esdeveniments">
+              <PropertyRef Name="SalaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Xats__IDEsdeveni__5070F446">
+          <End Role="Esdeveniments" Type="Self.Esdeveniments" Multiplicity="0..1" />
+          <End Role="Xats" Type="Self.Xats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Esdeveniments">
+              <PropertyRef Name="EsdevenimentID" />
+            </Principal>
+            <Dependent Role="Xats">
+              <PropertyRef Name="IDEsdeveniment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Xats__IDUser__4F7CD00D">
+          <End Role="Usuaris" Type="Self.Usuaris" Multiplicity="0..1" />
+          <End Role="Xats" Type="Self.Xats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuaris">
+              <PropertyRef Name="UsuariID" />
+            </Principal>
+            <Dependent Role="Xats">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="espaiCulturalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CaracteristiquesSales" EntityType="Self.CaracteristiquesSales" />
+          <EntitySet Name="Entrades" EntityType="Self.Entrades" />
+          <EntitySet Name="Esdeveniments" EntityType="Self.Esdeveniments" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" />
+          <EntitySet Name="Usuaris" EntityType="Self.Usuaris" />
+          <EntitySet Name="Xats" EntityType="Self.Xats" />
+          <AssociationSet Name="FK__Caracteri__SalaI__4AB81AF0" Association="Self.FK__Caracteri__SalaI__4AB81AF0">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="CaracteristiquesSales" EntitySet="CaracteristiquesSales" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entrades__Esdeve__46E78A0C" Association="Self.FK__Entrades__Esdeve__46E78A0C">
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+            <End Role="Entrades" EntitySet="Entrades" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entrades__Usuari__45F365D3" Association="Self.FK__Entrades__Usuari__45F365D3">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Entrades" EntitySet="Entrades" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Esdevenim__Organ__412EB0B6" Association="Self.FK__Esdevenim__Organ__412EB0B6">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Esdevenim__SalaI__403A8C7D" Association="Self.FK__Esdevenim__SalaI__403A8C7D">
+            <End Role="Sales" EntitySet="Sales" />
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Xats__IDEsdeveni__5070F446" Association="Self.FK__Xats__IDEsdeveni__5070F446">
+            <End Role="Esdeveniments" EntitySet="Esdeveniments" />
+            <End Role="Xats" EntitySet="Xats" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Xats__IDUser__4F7CD00D" Association="Self.FK__Xats__IDUser__4F7CD00D">
+            <End Role="Usuaris" EntitySet="Usuaris" />
+            <End Role="Xats" EntitySet="Xats" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="espaiCulturalModelStoreContainer" CdmEntityContainer="espaiCulturalEntities">
+          <EntitySetMapping Name="CaracteristiquesSales">
+            <EntityTypeMapping TypeName="espaiCulturalModel.CaracteristiquesSales">
+              <MappingFragment StoreEntitySet="CaracteristiquesSales">
+                <ScalarProperty Name="CaracteristicaID" ColumnName="CaracteristicaID" />
+                <ScalarProperty Name="SalaID" ColumnName="SalaID" />
+                <ScalarProperty Name="CaracteristicaNom" ColumnName="CaracteristicaNom" />
+                <ScalarProperty Name="CaracteristicaValor" ColumnName="CaracteristicaValor" />
+                <ScalarProperty Name="DataModificacio" ColumnName="DataModificacio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entrades">
+            <EntityTypeMapping TypeName="espaiCulturalModel.Entrades">
+              <MappingFragment StoreEntitySet="Entrades">
+                <ScalarProperty Name="EntradaID" ColumnName="EntradaID" />
+                <ScalarProperty Name="UsuariID" ColumnName="UsuariID" />
+                <ScalarProperty Name="EsdevenimentID" ColumnName="EsdevenimentID" />
+                <ScalarProperty Name="Quantitat" ColumnName="Quantitat" />
+                <ScalarProperty Name="NumeroButaca" ColumnName="NumeroButaca" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Esdeveniments">
+            <EntityTypeMapping TypeName="espaiCulturalModel.Esdeveniments">
+              <MappingFragment StoreEntitySet="Esdeveniments">
+                <ScalarProperty Name="EsdevenimentID" ColumnName="EsdevenimentID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Descripcio" ColumnName="Descripcio" />
+                <ScalarProperty Name="SalaID" ColumnName="SalaID" />
+                <ScalarProperty Name="DataInici" ColumnName="DataInici" />
+                <ScalarProperty Name="DataFi" ColumnName="DataFi" />
+                <ScalarProperty Name="Aforament" ColumnName="Aforament" />
+                <ScalarProperty Name="OrganitzadorID" ColumnName="OrganitzadorID" />
+                <ScalarProperty Name="Estat" ColumnName="Estat" />
+                <ScalarProperty Name="DePagament" ColumnName="DePagament" />
+                <ScalarProperty Name="Preu" ColumnName="Preu" />
+                <ScalarProperty Name="EntradesDisp" ColumnName="EntradesDisp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="espaiCulturalModel.Sales">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="SalaID" ColumnName="SalaID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="MetresQuadrats" ColumnName="MetresQuadrats" />
+                <ScalarProperty Name="Aforament" ColumnName="Aforament" />
+                <ScalarProperty Name="CadiresFixes" ColumnName="CadiresFixes" />
+                <ScalarProperty Name="Descripcio" ColumnName="Descripcio" />
+                <ScalarProperty Name="ButacaMax" ColumnName="ButacaMax" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuaris">
+            <EntityTypeMapping TypeName="espaiCulturalModel.Usuaris">
+              <MappingFragment StoreEntitySet="Usuaris">
+                <ScalarProperty Name="UsuariID" ColumnName="UsuariID" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Correu" ColumnName="Correu" />
+                <ScalarProperty Name="Contrasenya" ColumnName="Contrasenya" />
+                <ScalarProperty Name="TipusUsuari" ColumnName="TipusUsuari" />
+                <ScalarProperty Name="Actiu" ColumnName="Actiu" />
+                <ScalarProperty Name="ContrasenyaHash" ColumnName="ContrasenyaHash" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Xats">
+            <EntityTypeMapping TypeName="espaiCulturalModel.Xats">
+              <MappingFragment StoreEntitySet="Xats">
+                <ScalarProperty Name="XatID" ColumnName="XatID" />
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="IDEsdeveniment" ColumnName="IDEsdeveniment" />
+                <ScalarProperty Name="Enviat" ColumnName="Enviat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

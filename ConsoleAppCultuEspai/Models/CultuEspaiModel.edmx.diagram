@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6d37e0d04af84c68a60e46b6d9758d99" Name="Diagram1">
+        <EntityTypeShape EntityType="espaiCulturalModel.CaracteristiquesSales" Width="1.5" PointX="6" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="espaiCulturalModel.Entrades" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="espaiCulturalModel.Esdeveniments" Width="1.5" PointX="6" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="espaiCulturalModel.Sales" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="espaiCulturalModel.Usuaris" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="espaiCulturalModel.Xats" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Caracteri__SalaI__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Entrades__Esdeve__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Entrades__Usuari__45F365D3" ManuallyRouted="false" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Esdevenim__Organ__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Esdevenim__SalaI__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Xats__IDEsdeveni__5070F446" ManuallyRouted="false" />
+        <AssociationConnector Association="espaiCulturalModel.FK__Xats__IDUser__4F7CD00D" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
